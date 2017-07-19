@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<html>
+<head>
+
+  <title>Final Project</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.0-beta.33/vega.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.17/vega-embed.js"></script>
+
+  <style type="text/css">  </style>
+</head>
+
+
+<body>
+  <div id="rank"> </div>
+  <div id="yearly"></div>
+  <div id="zip_map"></div>
+
+
+  <script>
+    const rank = "rank.vg.json"
+    vega.embed("#rank", rank);
+
+    const yearly = "yearly.vg.json"
+    vega.embed("#yearly", yearly)
+
+    const zip_map = "zip_map.vg.json"
+    vega.embed("#zip_map", zip_map)
+  </script>
+</body>
+
+</html>

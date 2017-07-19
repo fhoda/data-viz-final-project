@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v3.0.json",
+  "width": 900,
+  "height": 500,
+  "padding": 20,
+
+  "data":[
+    {
+      "name": "table",
+      "format":{
+        "type": "csv"
+      },
+      "url": "./nj_Zhvi_4bedroom0.csv"
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "xscale",
+      "type": "band",
+      "domain": {"data": "table", "field": "Month"},
+      "range": "width",
+      "padding": 0.05,
+      "round": true
+    },
+    {
+      "name": "yscale",
+      "domain": {"data": "table", "field": "Median_Price"},
+      "nice": true,
+      "range": "height",
+      "zero": false
+    }
+  ],
+
+  "axes": [
+    { "orient": "bottom",
+      "scale": "xscale",
+      "encode":{
+        "labels": {
+          "update": {
+            "fontSize": {"value": 14},
+            "angle": {"value": 90},
+            "align": {"value": "left"}
+          }
+        }
+      }
+     },
+    { "orient": "left",
+      "scale": "yscale",
+      "encode":{
+        "labels": {
+          "update": {
+            "fontSize": {"value": 14}
+          }
+        }
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "line",
+      "from": {"data":"table"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "xscale", "field": "Month"},
+          "width": {"scale": "xscale", "band": 1},
+          "y": {"scale": "yscale", "field": "Median_Price"},
+          "y2": {"scale": "yscale", "value": 0}
+        }
+      }
+    }
+  ]
+}

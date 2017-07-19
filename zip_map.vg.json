@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v3.0.json",
+  "width": 960,
+  "height": 1100,
+  "autosize": "fit",
+
+  "data": [
+    {
+      "name": "Avg",
+      "url": "./Zip_Zhvi_4bedroom.csv",
+      "format": {"type": "csv", "parse": "auto"}
+    },
+    {
+      "name": "zip",
+      "url": "./tl_2010_34_zcta500_1.json",
+      "format": {"type": "topojson", "feature": "tl_2010_34_zcta500"},
+      "transform": [
+        { "type": "lookup", "from": "Avg", "key": "RegionName", "fields": ["properties.ZCTA5CE00"],"as": ["Avg"]},
+        { "type": "filter", "expr": "datum.Avg != null" }
+      ]
+    }
+  ],
+
+  "projections": [
+    {
+      "name": "projection",
+      "type": "transverseMercator",
+      "rotate": [74.5, -38.833333],
+      "scale": 25000
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+      "type": "quantize",
+      "domain": [0, 1539573],
+      "range": {"scheme": "blues-9"}
+    }
+  ],
+
+  "legends": [
+    {
+      "fill": "color",
+      "orient": "bottom-right",
+      "title": "Avg Median Price (USD)",
+      "encode": {
+        "symbols": {
+          "update": {
+            "shape": {"value": "square"},
+            "stroke": {"value": "#ccc"}
+          }
+        }
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "shape",
+      "from": {"data": "zip"},
+      "encode": {
+        "enter": { "tooltip": {"signal": "datum.Avg.Avg"}},
+        "update": { "fill": {"scale": "color", "field": "Avg.Avg"} },
+        "hover": { "fill": {"value": "red"} }
+      },
+      "transform": [
+        { "type": "geoshape", "projection": "projection" }
+      ]
+    }
+  ]
+}
