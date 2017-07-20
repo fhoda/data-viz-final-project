@@ -42,14 +42,8 @@
   const yearly = "yearly.vg.json"
   vega.embed("#yearly", yearly);
 
-  const zip_map = "zip_map.vg.json"
-  vega.embed("#zip_map", zip_map);
-
-
   var width = 600,
   height = 1000;
-
-
 
   var svg = d3.select("body").append("svg")
   .attr("width", width)
@@ -70,7 +64,7 @@
 
   var price = d3.map();
 
-  d3.json("tl_2010_34_zcta500_1.json", function(error, data) {
+  d3.json("tl_2010_34_zcta500.json", function(error, data) {
     if (error) return console.error(error);
 
     d3.csv("Zip_Zhvi_4bedroom.csv", function(error,price) {
@@ -81,8 +75,8 @@
 
 
       var div = d3.select("body").append("div")
-          .attr("class", "tooltip")
-          .style("opacity", 0);
+      .attr("class", "tooltip")
+      .style("opacity", 0);
 
       // add each feature
       svg.selectAll("path")
@@ -92,21 +86,20 @@
       .attr('fill',function(d) { return color(lookup[d.properties.ZCTA5CE00] ); })
       .attr("d", path)
       .on("mouseover", function(d) {
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-            div .html(lookup[d.properties.ZCTA5CE00] + "<br/>" )
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
-            })
-        .on("mouseout", function(d) {
-            div.transition()
-                .duration(500)
-                .style("opacity", 0);
-        });
+        div.transition()
+        .duration(200)
+        .style("opacity", .9);
+        div .html(lookup[d.properties.ZCTA5CE00] + "<br/>" )
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(d) {
+        div.transition()
+        .duration(500)
+        .style("opacity", 0);
+      });
     })
   });
-
   </script>
 </body>
 
