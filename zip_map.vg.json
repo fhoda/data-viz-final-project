@@ -7,7 +7,7 @@
   "data": [
     {
       "name": "Avg",
-      "url": "./Zip_Zhvi_4bedroom.csv",
+      "url": "https://raw.githubusercontent.com/fhoda/data-viz-final-project/master/Zip_Zhvi_4bedroom.csv",
       "format": {"type": "csv", "parse": "auto"}
     },
     {
@@ -15,7 +15,7 @@
       "url": "./tl_2010_34_zcta500_1.json",
       "format": {"type": "topojson", "feature": "tl_2010_34_zcta500"},
       "transform": [
-        { "type": "lookup", "from": "Avg", "key": "RegionName", "fields": ["properties.ZCTA5CE00"],"as": ["Avg"]},
+        { "type": "lookup", "from": "Avg", "key": "id", "fields": ["id"],"as": ["Avg"]},
         { "type": "filter", "expr": "datum.Avg != null" }
       ]
     }
