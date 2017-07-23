@@ -12,19 +12,17 @@
   <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
 
-
   <style type="text/css">
   div.tooltip {
     position: absolute;
     text-align: center;
-    width: 60px;
-    height: 28px;
     padding: 2px;
-    font: 12px sans-serif;
-    background: lightsteelblue;
+    font: 14px sans-serif;
+    background: black;
     border: 0px;
-    border-radius: 8px;
     pointer-events: none;
+    color: #fff;
+    border-radius: 2px;
   }
   </style>
 </head>
@@ -50,7 +48,7 @@
   .attr("height", height);
 
   var color = d3.scale.linear()
-  .range(['lightgreen','darkgreen'])
+  .range(['lightblue','darkblue'])
   .domain([0,1539573]);
 
   var projection = d3.geo.albers()
@@ -64,6 +62,7 @@
 
   var price = d3.map();
 
+
   d3.json("tl_2010_34_zcta500.json", function(error, data) {
     if (error) return console.error(error);
 
@@ -72,6 +71,12 @@
       var lookup = {};
       price.forEach(function(d) { lookup[d.RegionName] = +d.Avg; });
       // console.log(lookup)
+
+      function getRegionData(zip) {
+        return price.filter(
+            function(price){ return price.RegionName == zip }
+        );
+      }
 
 
       var div = d3.select("body").append("div")
@@ -86,17 +91,27 @@
       .attr('fill',function(d) { return color(lookup[d.properties.ZCTA5CE00] ); })
       .attr("d", path)
       .on("mouseover", function(d) {
-        div.transition()
-        .duration(200)
-        .style("opacity", .9);
-        div .html(lookup[d.properties.ZCTA5CE00] + "<br/>" )
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
+        var region = getRegionData(d.properties.ZCTA5CE00)[0];
+        if(region != null){
+          div.transition()
+          .duration(200)
+          .style("opacity", .9);
+          div .html("$" + lookup[d.properties.ZCTA5CE00] + "<br/>" + "ZIP: " + d.properties.ZCTA5CE00 + "<br/>" + "Metro: " + region.Metro + "<br/>" + "City: " + region.City)
+          .style("left", (d3.event.pageX + 25) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+        };
       })
       .on("mouseout", function(d) {
         div.transition()
         .duration(500)
         .style("opacity", 0);
+      })
+      .on("click", function(d) {
+        var region = getRegionData(d.properties.ZCTA5CE00);
+        if(region[0]!=null){
+          console.log(region[0]);
+          
+        }
       });
     })
   });
