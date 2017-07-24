@@ -27,16 +27,16 @@
 
 
   .bar {
-  fill: steelblue;
-}
+    fill: steelblue;
+  }
 
-.bar:hover {
-  fill: brown;
-}
+  .bar:hover {
+    fill: brown;
+  }
 
-.axis--x path {
-  display: none;
-}
+  .axis--x path {
+    display: none;
+  }
   </style>
 </head>
 
@@ -44,8 +44,8 @@
 <body>
   <div id="rank"> </div>
   <div id="yearly"></div>
-  <div>
-  </div>
+  <div id="njmap"></div>
+  <div id="region"></div>
 
 
   <script>
@@ -58,7 +58,7 @@
   var width = 1000
   var height = 1000;
 
-  var svg = d3.select("body").append("svg")
+  var njmap = d3.select("#njmap").append("svg")
   .attr("width", width)
   .attr("height", height);
 
@@ -92,12 +92,12 @@
       }
 
 
-      var div = d3.select("body").append("div")
+      var tooltipDiv = d3.select("body").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
 
       // add each feature
-      svg.selectAll("path")
+      njmap.selectAll("path")
       .data(topojson.feature(data, data.objects.tl_2010_34_zcta500).features)
       .enter()
       .append('path')
@@ -106,16 +106,16 @@
       .on("mouseover", function(d) {
         var region = getRegionData(d.properties.ZCTA5CE00)[0];
         if(region != null){
-          div.transition()
+          tooltipDiv.transition()
           .duration(200)
           .style("opacity", .9);
-          div .html("$" + lookup[d.properties.ZCTA5CE00] + "<br/>" + "ZIP: " + d.properties.ZCTA5CE00 + "<br/>" + "Metro: " + region.Metro + "<br/>" + "City: " + region.City)
+          tooltipDiv .html("$" + lookup[d.properties.ZCTA5CE00] + "<br/>" + "ZIP: " + d.properties.ZCTA5CE00 + "<br/>" + "Metro: " + region.Metro + "<br/>" + "City: " + region.City)
           .style("left", (d3.event.pageX + 25) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
         };
       })
       .on("mouseout", function(d) {
-        div.transition()
+        tooltipDiv.transition()
         .duration(500)
         .style("opacity", 0);
       })
@@ -123,10 +123,9 @@
 
         var regionData = getRegionData(d.properties.ZCTA5CE00)[0]
         if(regionData!=null){
-
           var parseTime = d3.timeParse("%Y-%m");
-
           var region = []
+
           Object.entries(regionData).forEach(function(d){
             if(d[0].includes("2")){
               region.push({"month": parseTime(d[0]), "med_price": +d[1]})
@@ -135,8 +134,9 @@
 
           console.log(region);
 
+          d3.select("#region").selectAll("svg").remove();
 
-          var line = d3.select("body").append("svg").attr("width", 1000).attr("height", 1000),
+          var line = d3.select("#region").append("svg").attr("width", 1000).attr("height", 1000),
           margin = {top: 20, right: 20, bottom: 30, left: 50},
           width = +line.attr("width") - margin.left - margin.right,
           height = +line.attr("height") - margin.top - margin.bottom,
@@ -147,78 +147,36 @@
           var y = d3.scaleLinear().rangeRound([height, 0]);
 
           var line = d3.line()
-            .x(function(d) { return x(d.month); })
-            .y(function(d) { return y(d.med_price); });
+          .x(function(d) { return x(d.month); })
+          .y(function(d) { return y(d.med_price); });
 
-            x.domain(d3.extent(region, function(d) { return d.month; }));
-            y.domain(d3.extent(region, function(d) { return d.med_price; }));
+          x.domain(d3.extent(region, function(d) { return d.month; }));
+          y.domain(d3.extent(region, function(d) { return d.med_price; }));
 
-            g.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x))
-              .select(".domain")
-                .remove();
+          g.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x))
+          .select(".domain")
+          .remove();
 
-            g.append("g")
-                .call(d3.axisLeft(y))
-              .append("text")
-                .attr("fill", "#000")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", "0.71em")
-                .attr("text-anchor", "end")
-                .text("Price (USD)");
+          g.append("g")
+          .call(d3.axisLeft(y))
+          .append("text")
+          .attr("fill", "#000")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "end")
+          .text("Price (USD)");
 
-            g.append("path")
-                .datum(region)
-                .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-linejoin", "round")
-                .attr("stroke-linecap", "round")
-                .attr("stroke-width", 1.5)
-                .attr("d", line);
-
-
-
-
-
-          // var bar = d3.select("svg"),
-          // margin = {top: 20, right: 20, bottom: 30, left: 40},
-          // width = +bar.attr("width") - margin.left - margin.right,
-          // height = +bar.attr("height") - margin.top - margin.bottom;
-          //
-          // var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
-          // var y = d3.scaleLinear().rangeRound([height, 0]);
-          //
-          // var g = bar.append("g")
-          // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-          //
-          //   x.domain(Object.keys(region));
-          //   y.domain([0, d3.max(Object.keys(region).map(function(d) { return region[d]; }))]);
-          //
-          //   g.append("g")
-          //   .attr("class", "axis axis--x")
-          //   .attr("transform", "translate(0," + height + ")")
-          //   .call(d3.axisBottom(x));
-          //
-          //   g.append("g")
-          //   .attr("class", "axis axis--y")
-          //   .call(d3.axisLeft(y))
-          //   .append("text")
-          //   .attr("transform", "rotate(-90)")
-          //   .attr("y", 6)
-          //   .attr("dy", "0.71em")
-          //   .attr("text-anchor", "end")
-          //   .text("Median Price (USD)");
-          //
-          //   g.selectAll(".bar")
-          //   .data(region)
-          //   .enter().append("rect")
-          //   .attr("class", "bar")
-          //   .attr("x", function(d) { return x(d); })
-          //   .attr("y", function(d) { return y(d); })
-          //   .attr("width", x.bandwidth())
-          //   .attr("height", function(d) { return height - y(d); });
+          g.append("path")
+          .datum(region)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-linejoin", "round")
+          .attr("stroke-linecap", "round")
+          .attr("stroke-width", 1.5)
+          .attr("d", line);
         }
       });
     })
