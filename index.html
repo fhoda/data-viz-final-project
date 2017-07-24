@@ -9,7 +9,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/vega/3.0.0-beta.33/vega.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.17/vega-embed.js"></script>
 
-  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
 
   <style type="text/css">
@@ -24,6 +24,19 @@
     color: #fff;
     border-radius: 2px;
   }
+
+
+  .bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis--x path {
+  display: none;
+}
   </style>
 </head>
 
@@ -31,6 +44,8 @@
 <body>
   <div id="rank"> </div>
   <div id="yearly"></div>
+  <div>
+  </div>
 
 
   <script>
@@ -40,24 +55,24 @@
   const yearly = "yearly.vg.json"
   vega.embed("#yearly", yearly);
 
-  var width = 600,
-  height = 1000;
+  var width = 1000
+  var height = 1000;
 
   var svg = d3.select("body").append("svg")
   .attr("width", width)
   .attr("height", height);
 
-  var color = d3.scale.linear()
+  var color = d3.scaleLinear()
   .range(['lightblue','darkblue'])
   .domain([0,1539573]);
 
-  var projection = d3.geo.albers()
+  var projection = d3.geoAlbers()
   .center([-1,40])
   .rotate([74,0])
   .translate([width/2,height/2])
   .scale(20000);
 
-  var path = d3.geo.path()
+  var path = d3.geoPath()
   .projection(projection);
 
   var price = d3.map();
@@ -73,9 +88,7 @@
       // console.log(lookup)
 
       function getRegionData(zip) {
-        return price.filter(
-            function(price){ return price.RegionName == zip }
-        );
+        return price.filter(function(price){ return price.RegionName == zip });
       }
 
 
@@ -107,10 +120,105 @@
         .style("opacity", 0);
       })
       .on("click", function(d) {
-        var region = getRegionData(d.properties.ZCTA5CE00);
-        if(region[0]!=null){
-          console.log(region[0]);
-          
+
+        var regionData = getRegionData(d.properties.ZCTA5CE00)[0]
+        if(regionData!=null){
+
+          var parseTime = d3.timeParse("%Y-%m");
+
+          var region = []
+          Object.entries(regionData).forEach(function(d){
+            if(d[0].includes("2")){
+              region.push({"month": parseTime(d[0]), "med_price": +d[1]})
+            }
+          });
+
+          console.log(region);
+
+
+          var line = d3.select("body").append("svg").attr("width", 1000).attr("height", 1000),
+          margin = {top: 20, right: 20, bottom: 30, left: 50},
+          width = +line.attr("width") - margin.left - margin.right,
+          height = +line.attr("height") - margin.top - margin.bottom,
+          g = line.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+          var x = d3.scaleTime().rangeRound([0, width]);
+          var y = d3.scaleLinear().rangeRound([height, 0]);
+
+          var line = d3.line()
+            .x(function(d) { return x(d.month); })
+            .y(function(d) { return y(d.med_price); });
+
+            x.domain(d3.extent(region, function(d) { return d.month; }));
+            y.domain(d3.extent(region, function(d) { return d.med_price; }));
+
+            g.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+              .select(".domain")
+                .remove();
+
+            g.append("g")
+                .call(d3.axisLeft(y))
+              .append("text")
+                .attr("fill", "#000")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", "0.71em")
+                .attr("text-anchor", "end")
+                .text("Price (USD)");
+
+            g.append("path")
+                .datum(region)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-linejoin", "round")
+                .attr("stroke-linecap", "round")
+                .attr("stroke-width", 1.5)
+                .attr("d", line);
+
+
+
+
+
+          // var bar = d3.select("svg"),
+          // margin = {top: 20, right: 20, bottom: 30, left: 40},
+          // width = +bar.attr("width") - margin.left - margin.right,
+          // height = +bar.attr("height") - margin.top - margin.bottom;
+          //
+          // var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
+          // var y = d3.scaleLinear().rangeRound([height, 0]);
+          //
+          // var g = bar.append("g")
+          // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          //
+          //   x.domain(Object.keys(region));
+          //   y.domain([0, d3.max(Object.keys(region).map(function(d) { return region[d]; }))]);
+          //
+          //   g.append("g")
+          //   .attr("class", "axis axis--x")
+          //   .attr("transform", "translate(0," + height + ")")
+          //   .call(d3.axisBottom(x));
+          //
+          //   g.append("g")
+          //   .attr("class", "axis axis--y")
+          //   .call(d3.axisLeft(y))
+          //   .append("text")
+          //   .attr("transform", "rotate(-90)")
+          //   .attr("y", 6)
+          //   .attr("dy", "0.71em")
+          //   .attr("text-anchor", "end")
+          //   .text("Median Price (USD)");
+          //
+          //   g.selectAll(".bar")
+          //   .data(region)
+          //   .enter().append("rect")
+          //   .attr("class", "bar")
+          //   .attr("x", function(d) { return x(d); })
+          //   .attr("y", function(d) { return y(d); })
+          //   .attr("width", x.bandwidth())
+          //   .attr("height", function(d) { return height - y(d); });
         }
       });
     })
