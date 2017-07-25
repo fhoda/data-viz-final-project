@@ -11,42 +11,40 @@
 
   <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
-  <style type="text/css">
-  div.tooltip {
-    position: absolute;
-    text-align: center;
-    padding: 2px;
-    font: 14px sans-serif;
-    background: black;
-    border: 0px;
-    pointer-events: none;
-    color: #fff;
-    border-radius: 2px;
-  }
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
-  .bar {
-    fill: steelblue;
-  }
-
-  .bar:hover {
-    fill: brown;
-  }
-
-  .axis--x path {
-    display: none;
-  }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 
 <body>
-  <div id="rank"> </div>
-  <div id="yearly"></div>
-  <div id="njmap"></div>
-  <div id="region"></div>
 
+
+      <!-- <div class="row"> -->
+        <div id="rank"> </div>
+      <!-- </div> -->
+      <!-- <div class="row"> -->
+        <div id="yearly"></div>
+      <!-- </div> -->
+      <!-- <div class="row"> -->
+        <div id="njmap"></div>
+      <!-- </div> -->
+      <!-- <div class="row"> -->
+        <div id="region"></div>
+      <!-- </div> -->
 
   <script>
   const rank = "rank.vg.json"
@@ -55,7 +53,7 @@
   const yearly = "yearly.vg.json"
   vega.embed("#yearly", yearly);
 
-  var width = 1000
+  var width = 800
   var height = 1000;
 
   var njmap = d3.select("#njmap").append("svg")
@@ -70,7 +68,7 @@
   .center([-1,40])
   .rotate([74,0])
   .translate([width/2,height/2])
-  .scale(20000);
+  .scale(15000);
 
   var path = d3.geoPath()
   .projection(projection);
@@ -110,8 +108,10 @@
           .duration(200)
           .style("opacity", .9);
           tooltipDiv .html("$" + lookup[d.properties.ZCTA5CE00] + "<br/>" + "ZIP: " + d.properties.ZCTA5CE00 + "<br/>" + "Metro: " + region.Metro + "<br/>" + "City: " + region.City)
+          // .style("left", 100 + "px")
           .style("left", (d3.event.pageX + 25) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
+          // .style("top", 100 + "px");
         };
       })
       .on("mouseout", function(d) {
@@ -136,11 +136,12 @@
 
           d3.select("#region").selectAll("svg").remove();
 
-          var line = d3.select("#region").append("svg").attr("width", 1000).attr("height", 1000),
-          margin = {top: 20, right: 20, bottom: 30, left: 50},
+          var line = d3.select("#region").append("svg")
+          .attr("width", 800).attr("height", 400),
+          margin = {top: 20, right: 20, bottom: 30, left: 75},
           width = +line.attr("width") - margin.left - margin.right,
           height = +line.attr("height") - margin.top - margin.bottom,
-          g = line.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          g = line.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")").attr("class", "axis");
 
 
           var x = d3.scaleTime().rangeRound([0, width]);
@@ -153,26 +154,26 @@
           x.domain(d3.extent(region, function(d) { return d.month; }));
           y.domain(d3.extent(region, function(d) { return d.med_price; }));
 
-          g.append("g")
+          g.append("g").attr("class", "axisColor")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(x))
           .select(".domain")
           .remove();
 
-          g.append("g")
+          g.append("g").attr("class", "axisColor")
           .call(d3.axisLeft(y))
           .append("text")
-          .attr("fill", "#000")
+          .attr("fill", "#f2f2f2")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
-          .attr("dy", "0.71em")
+          .attr("dy", "1em")
           .attr("text-anchor", "end")
           .text("Price (USD)");
 
           g.append("path")
           .datum(region)
           .attr("fill", "none")
-          .attr("stroke", "steelblue")
+          .attr("stroke", "#f2f2f2")
           .attr("stroke-linejoin", "round")
           .attr("stroke-linecap", "round")
           .attr("stroke-width", 1.5)

@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v3.0.json",
-  "width": 900,
-  "height": 500,
+  "width": 800,
+  "height": 200,
   "padding": 20,
 
   "data":[
@@ -40,7 +40,8 @@
           "update": {
             "fontSize": {"value": 14},
             "angle": {"value": 90},
-            "align": {"value": "left"}
+            "align": {"value": "left"},
+            "fill": {"value": "#f2f2f2"}
           }
         }
       }
@@ -50,7 +51,8 @@
       "encode":{
         "labels": {
           "update": {
-            "fontSize": {"value": 14}
+            "fontSize": {"value": 14},
+            "fill": {"value": "#f2f2f2"}
           }
         }
       }
@@ -66,7 +68,8 @@
           "x": {"scale": "xscale", "field": "Month"},
           "width": {"scale": "xscale", "band": 1},
           "y": {"scale": "yscale", "field": "Median_Price"},
-          "y2": {"scale": "yscale", "value": 0}
+          "y2": {"scale": "yscale", "value": 0},
+          "stroke": {"value": "#af130c"}
         }
       }
     }
