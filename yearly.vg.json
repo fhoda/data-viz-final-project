@@ -69,7 +69,8 @@
           "width": {"scale": "xscale", "band": 1},
           "y": {"scale": "yscale", "field": "Median_Price"},
           "y2": {"scale": "yscale", "value": 0},
-          "stroke": {"value": "#af130c"}
+          "stroke": {"value": "#d3ffce"},
+          "strokeWidth": {"value": 4}
         }
       }
     }
