@@ -1,4 +1,4 @@
-div.tooltip {
+/*div.tooltip {
   position: absolute;
   text-align: center;
   padding: 2px;
@@ -8,27 +8,20 @@ div.tooltip {
   pointer-events: none;
   color: #fff;
   border-radius: 2px;
-}
+}*/
 
-.bar {
+/*.bar {
   fill: steelblue;
 }
 
 .bar:hover {
   fill: brown;
-}
-
-.axis--x path {
-  display: none;
-}
+}*/
 
 body{
   text-align: center;
-}
-
-.container .jumbotron p{
-padding-left: 0px !important;
-text-align: left !important;
+  padding-top: 70px;
+  color: #ffffff
 }
 
 
@@ -36,6 +29,19 @@ text-align: left !important;
   text-align: center;
 }
 
+#tips{
+  width: 200px;
+  position: relative;
+  height: 500px;
+}
+
+#innerTip{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 175px;
+  height: 200px;
+}
 
 .axis line{
   stroke: #f2f2f2;
@@ -48,7 +54,7 @@ text-align: left !important;
 
 .axis text{
   fill: #f2f2f2;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .vega-actions{
@@ -61,4 +67,39 @@ text-align: left !important;
 }
 .panel-title .glyphicon{
     font-size: 14px;
+}
+
+.axis {
+	font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ADD8E6;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: #d3ffce;
+  stroke-width: 5px;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: #F1F3F3;
+  stroke: #6495ED;
+  stroke-width: 5px;
+}
+
+.hover-line {
+  stroke: #6495ED;
+  stroke-width: 2px;
+  stroke-dasharray: 3,3;
 }

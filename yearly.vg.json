@@ -45,7 +45,7 @@
           }
         }
       }
-     },
+    },
     { "orient": "left",
       "scale": "yscale",
       "encode":{
