@@ -47,13 +47,14 @@
       "type": "x",
       "scale": "xscale",
       "title": "Month",
-      "properties":{
-        "title": {
-         "fontSize": {"value": 30}
-       }
-     },
       "encode":{
         "labels":{
+          "update": {
+            "fontSize": {"value": 16},
+            "fill": {"value": "#f2f2f2"}
+          }
+        },
+        "title": {
           "update": {
             "fontSize": {"value": 16},
             "fill": {"value": "#f2f2f2"}
@@ -71,6 +72,12 @@
      },
       "encode":{
         "labels":{
+          "update": {
+            "fontSize": {"value": 16},
+            "fill": {"value": "#f2f2f2"}
+          }
+        },
+        "title": {
           "update": {
             "fontSize": {"value": 16},
             "fill": {"value": "#f2f2f2"}
@@ -111,6 +118,8 @@
           "x": {"scale": "xscale", "signal": "tooltip.Month", "band": 0.5},
           "y": {"scale": "yscale", "signal": "tooltip.Avg_Rank", "offset": -2},
           "text": {"signal": "tooltip.Avg_Rank"},
+          "fontSize": {"value": 16},
+          "fill": {"value": "#f2f2f2"},
           "fillOpacity": [
             {"test": "datum === tooltip", "value": 0},
             {"value": 1}
