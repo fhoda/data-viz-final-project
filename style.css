@@ -24,6 +24,9 @@ body{
   color: #ffffff
 }
 
+.panel-body{
+  text-align: left;
+}
 
 #region{
   text-align: center;

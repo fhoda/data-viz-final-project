@@ -11,8 +11,6 @@
 
   <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
@@ -29,12 +27,10 @@
 
   <script>
   $(document).ready(function(){
-    // Add minus icon for collapse element which is open by default
     $(".collapse.in").each(function(){
       $(this).siblings(".panel-heading").find(".glyphicon").addClass("glyphicon-minus").removeClass("glyphicon-plus");
     });
 
-    // Toggle plus minus icon on show hide of collapse element
     $(".collapse").on('show.bs.collapse', function(){
       $(this).parent().find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
     }).on('hide.bs.collapse', function(){
@@ -63,15 +59,15 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="#rankings"><i class="fa fa-calendar" aria-hidden="true"></i> Monthly Rank</a></li>
+          <li><a href="#rankings"><i class="fa fa-bar-chart" aria-hidden="true"></i> Monthly Rank</a></li>
           <li><a href="#trend"><i class="fa fa-line-chart" aria-hidden="true"></i> Median Price Trend</a></li>
           <li><a href="#map"><i class="fa fa-map-marker" aria-hidden="true"></i> Zip Code Map</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-book" aria-hidden="true"></i> Resources <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="//www.zillow.com/research/data/"><i class="fa fa-home" aria-hidden="true"></i> Zillow</a></li>
-              <li><a href="//d3js.org/">D3.js</a></li>
-              <li><a href="//vega.github.io/vega/">Vega</a></li>
+              <li><a href="//d3js.org/"><i class="fa fa-code" aria-hidden="true"></i> D3.js</a></li>
+              <li><a href="//vega.github.io/vega/">{ } Vega</a></li>
               <li class="divider"></li>
               <li><a href="Data.zip"><i class="fa fa-download" aria-hidden="true"></i> Download Datasets</a></li>
               <li class="divider"></li>
@@ -85,11 +81,9 @@
       </div>
     </div>
   </nav>
-  <!-- <h1>NJ Median Home Prices (2012-2016)</h1>
-  <h4>Test</h4> -->
+
   <div class="container-fluid">
     <div class="bs-example">
-      <!-- <div class="panel-group" id="accordion"> -->
       <div class="panel panel-success" id="about_accordian">
         <div class="panel-heading">
           <h4 class="panel-title">
@@ -98,7 +92,15 @@
         </div>
         <div id="collapse_about" class="panel-collapse collapse">
           <div class="panel-body">
-            <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+            <p>This project follows the Martini Glass narrative structure. The first two scenes are author driven guiding the user through an overview of the data, while posing questions that encourage further contemplation and research. The final scene allows the user to explore median home prices for all zip code regions and participate in reader driven content. There is a downward flow through the narrative as the user either clicks or scrolls down.</p>
+
+            <p>The first scene provides summary data for each month across all years (2012-2016) in the form of rankings. A higher average ranking indicates an average of lower median prices as compared to the other months. Annotations are provided in the form of tool tips which are triggered by the user mouse hover event displaying the exact average rank for that month. Parameters in this section appear as links to the next section which expands the view from looking at the data from a monthly perspective to looking at it by year. Triggers are mouse hovers which highlight a data point (bar) in the graph and displays the calculated average rank on top of the highlighted bar.</p>
+
+            <p>The next scene is a line chart that communicates the median price for each month from 2012 to 2016. Annotations are in the form of questions above the visualization as well as the tooltips that appear when the user hovers over a given months x-value displaying the median price for that month in the given year. This scene is linked to the next scene which expands the view from looking at the data from a summarized perspective to being able explore various zip codes within the state, thus serving as a parameter.  Triggers are mouse hover events that highlight a data point and display the corresponding tooltip annotation. </p>
+
+            <p>The final scene presents a heat map of New Jersey zip codes. Annotations include detailed information about the zip code including its average median price across all years, metro area, and township/city. Parameters are in the form of zip codes which when selected display the monthly data of median prices for that region. Triggers are mouse hover events, which update a text box with a summary of the zip code data, and mouse clicks which generates/updates a line chart showing the monthly median prices for that zip code from 2012-2016.</p>
+
+            <p>User interface events include mouse hovers and clicks on the visualizations. Additionally	the navigation bar is fixed at the top of the page so the user can jump between scenes if they desire to do so or follow the guided structure of top down by scrolling or clicking the green double down arrows. These events are consistent throughout the narrative.</p>
           </div>
         </div>
       </div>
@@ -113,16 +115,19 @@
     <div id="rank"></div>
     <br/><br/>
     <div class="bs-example">
-      <!-- <div class="panel-group" id="accordion"> -->
       <div class="panel panel-info" id="rank_accordion">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#rank_accordion" href="#collapse_rank"><span class="glyphicon glyphicon-plus"></span>Visualization Details</a>
+            <a data-toggle="collapse" data-parent="#rank_accordion" href="#collapse_rank"><span class="glyphicon glyphicon-plus"></span>Rankings Visualization Details</a>
           </h4>
         </div>
         <div id="collapse_rank" class="panel-collapse collapse">
           <div class="panel-body">
-            <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+            <p>Built with Vega</p>
+                <p><strong>Scene:</strong> Monthly Median Price Rankings based on Average Median price for a given month.</p>
+                <p><strong>Annotations:</strong> Are in the form of questions above the visualization as well as the tooltips that appear when the user hovers over a give month’s data.
+                <p><strong>Parameters:</strong> This section is linked to the following section which expands the view from looking at the data from a month’s perspective to looking at it by year.
+                <p><strong>Triggers:</strong> The green double down arrows are navigation events to the next scene. Also the mouse hover generates tooltips with annotations.</p>
           </div>
         </div>
       </div>
@@ -138,16 +143,19 @@
       <div id="yearly"></div>
       <br/><br/>
       <div class="bs-example">
-        <!-- <div class="panel-group" id="accordion"> -->
         <div class="panel panel-info" id="trend_accordion">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#trend_accordion" href="#collapse_trend"><span class="glyphicon glyphicon-plus"></span> Visualization Details</a>
+              <a data-toggle="collapse" data-parent="#trend_accordion" href="#collapse_trend"><span class="glyphicon glyphicon-plus"></span> Avg. Price Trend Visualization Details</a>
             </h4>
           </div>
           <div id="collapse_trend" class="panel-collapse collapse">
             <div class="panel-body">
-              <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+              <p>Built with D3.js<p>
+              <p><strong>Scene:</strong> Average Median Price Trend.
+              <p><strong>Annotations:</strong> Are in the form of questions above the visualization. Additionally they appear as “tooltips” containing the average median price for a specific month in a year.
+              <p><strong>Parameters:</strong> This section is linked to the following section which expands the view from looking at the data from a summarized perspective to being able to see it for various regions within the state.
+              <p><strong>Triggers:</strong> The green double down arrows are navigation events to the next scene. Also a mouse hover updates a tooltip and highlights the data point.</p>
             </div>
           </div>
         </div>
@@ -161,197 +169,166 @@
         <p>Explore the trends for a given Zip Code by clicking on the region or hover over it to get summary information.</p>
       </div>
       <div class="row">
-        <div id="tips" class="col-md-2">
-          <!-- <div id="innerTip" class="list-group">
-            <a href="#" class="list-group-item active">
-              Cras justo odio
-            </a>
-            <a href="#" class="list-group-item">Dapibus ac facilisis in
-            </a>
-            <a href="#" class="list-group-item">Morbi leo risus
-            </a>
-          </div> -->
-        </div>
-          <div id="njmap" class="col-md-5"></div>
-          <div id="region" class="col-md-5"></div>
-        </div>
+        <div id="tips" class="col-md-2"></div>
+        <div id="njmap" class="col-md-5"></div>
+        <div id="region" class="col-md-5"></div>
+      </div>
 
-        <div class="bs-example">
-          <!-- <div class="panel-group" id="accordion"> -->
-          <div class="panel panel-info" id="map_accordion">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#map_accordion" href="#collapse_map"><span class="glyphicon glyphicon-plus"></span> Visualization Details</a>
-              </h4>
-            </div>
-            <div id="collapse_map" class="panel-collapse collapse">
-              <div class="panel-body">
-                <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
-              </div>
+      <div class="bs-example">
+        <div class="panel panel-info" id="map_accordion">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#map_accordion" href="#collapse_map"><span class="glyphicon glyphicon-plus"></span> Zip Code Map Visualization Details</a>
+            </h4>
+          </div>
+          <div id="collapse_map" class="panel-collapse collapse">
+            <div class="panel-body">
+              <p>Built with D3.js</p>
+              <p><strong>Scene:</strong> Zip code Map that gives detailed data for each zip and its home prices.
+              <p><strong>Annotations:</strong> In the form of tooltips that appear on mouse hover.
+              <p><strong>Parameters:</strong> Zip Code that changes the data being displayed in tooltip and line chart.
+              <p><strong>Triggers:</strong> Mouse hover generates summarized data for a given zip code. Also clicking a zip code on the map generate a visualization of the median house prices from 2012-2016 for that region.</p>
             </div>
           </div>
         </div>
-        <br/><br/>
+      </div>
+      <br/><br/>
 
-        <div id="about" class="jumbotron">
-          <h2><i class="fa fa-info-circle" aria-hidden="true"></i> About</h2>
-          <p>Author: Faisal Hoda</p>
-          <p>Data: <a href="https://www.zillow.com/research/data/">Zillow Data</a></p>
-          <p>Repo: <a href="https://github.com/fhoda/data-viz-final-project">CSC 498 Final Project</a><p>
-            <p>Tech Stack: D3.js v4, Vega v3, and Twitter Boostrap v3<br></p>
-
-          </div>
+      <div id="about" class="jumbotron">
+        <h2><i class="fa fa-info-circle" aria-hidden="true"></i> About</h2>
+        <p>Author: Faisal Hoda</p>
+        <p>Data: <a href="https://www.zillow.com/research/data/">Zillow Data</a></p>
+        <p>Repo: <a href="https://github.com/fhoda/data-viz-final-project">https://github.com/fhoda/data-viz-final-project</a><p>
+          <p>Tech Stack: D3.js v4, Vega v3, and Twitter Boostrap v3<br></p>
 
         </div>
 
-        <script src="./line_chart.js"></script>
-        <script>
-        const rank = "rank.vg.json"
-        vega.embed("#rank", rank);
+      </div>
 
-        // const yearly = "yearly.vg.json"
-        // vega.embed("#yearly", yearly);
+      <script src="./line_chart.js"></script>
+      <script>
+      const rank = "rank.vg.json"
+      vega.embed("#rank", rank);
 
-        var width = 400
-        var height = 800;
+      var width = 400
+      var height = 800;
 
-        var njmap = d3.select("#njmap").append("svg")
-        .attr("width", width)
-        .attr("height", height);
+      var njmap = d3.select("#njmap").append("svg")
+      .attr("width", width)
+      .attr("height", height);
 
-        var color = d3.scaleLinear()
-        .range(['lightblue','darkblue'])
-        .domain([0,1539573]);
+      var color = d3.scaleLinear()
+      .range(['lightblue','darkblue'])
+      .domain([0,1539573]);
 
-        var projection = d3.geoAlbers()
-        .center([-.75,40])
-        .rotate([74,0])
-        .translate([width/2,height/2])
-        .scale(15000);
+      var projection = d3.geoAlbers()
+      .center([-.75,40])
+      .rotate([74,0])
+      .translate([width/2,height/2])
+      .scale(15000);
 
-        var path = d3.geoPath()
-        .projection(projection);
+      var path = d3.geoPath()
+      .projection(projection);
 
-        var price = d3.map();
-
-
-        d3.json("tl_2010_34_zcta500.json", function(error, data) {
-          if (error) return console.error(error);
-
-          d3.csv("Zip_Zhvi_4bedroom.csv", function(error,price) {
-            // make a dictionary to look up values:
-            var lookup = {};
-            price.forEach(function(d) { lookup[d.RegionName] = +d.Avg; });
-            // console.log(lookup)
-
-            function getRegionData(zip) {
-              return price.filter(function(price){ return price.RegionName == zip });
-            }
+      var price = d3.map();
 
 
-            // var tooltipDiv = d3.select("body").append("div")
-            // .attr("class", "tooltip")
-            // .style("opacity", 0);
+      d3.json("tl_2010_34_zcta500.json", function(error, data) {
+        if (error) return console.error(error);
 
-            var tooltipDiv = d3.select("#tips");
+        d3.csv("Zip_Zhvi_4bedroom.csv", function(error,price) {
+          var lookup = {};
+          price.forEach(function(d) { lookup[d.RegionName] = +d.Avg; });
+          // console.log(lookup)
 
-            // add each feature
-            njmap.selectAll("path")
-            .data(topojson.feature(data, data.objects.tl_2010_34_zcta500).features)
-            .enter()
-            .append('path')
-            .attr('fill',function(d) { return color(lookup[d.properties.ZCTA5CE00] ); })
-            .attr("d", path)
-            .on("mouseover", function(d) {
-              var region = getRegionData(d.properties.ZCTA5CE00)[0];
-              if(region != null){
-                // tooltipDiv.transition()
-                // .duration(200)
-                tooltipDiv.html('<div id="innerTip" class="list-group">' +
-                  '<p class="list-group-item active">Zip Code: ' +  d.properties.ZCTA5CE00 + '</p>' +
-                  '<a href="#njmap" class="list-group-item">Avg. Median Price: $' + lookup[d.properties.ZCTA5CE00] + '</a>' +
-                  '<a href="#njmap" class="list-group-item">Metro: ' + region.Metro + '</a>' +
-                  '<a href="#njmap" class="list-group-item">City: ' + region.City + '</a>' +
-                  '</div>');
-                // .style("opacity", .9);
-                // tooltipDiv.html("$" + lookup[d.properties.ZCTA5CE00] + "<br/>" + "ZIP: " + d.properties.ZCTA5CE00 + "<br/>" + "Metro: " + region.Metro + "<br/>" + "City: " + region.City)
-                // .style("left", 100 + "px")
-                // .style("left", (d3.event.pageX + 25) + "px")
-                // .style("top", (d3.event.pageY - 28) + "px");
-                // .style("top", 100 + "px");
-              };
-            })
-            // .on("mouseout", function(d) {
-            //   tooltipDiv.transition()
-            //   .duration(500)
-            //   .style("opacity", 0);
-            // })
-            .on("click", function(d) {
+          function getRegionData(zip) {
+            return price.filter(function(price){ return price.RegionName == zip });
+          }
 
-              var regionData = getRegionData(d.properties.ZCTA5CE00)[0]
-              if(regionData!=null){
-                var parseTime = d3.timeParse("%Y-%m");
-                var region = []
+          var tooltipDiv = d3.select("#tips");
 
-                Object.entries(regionData).forEach(function(d){
-                  if(d[0].includes("2")){
-                    region.push({"month": parseTime(d[0]), "med_price": +d[1]})
-                  }
-                });
-
-                console.log(region);
-
-                d3.select("#region").selectAll("svg").remove();
-
-                var line = d3.select("#region").append("svg")
-                .attr("width", 500).attr("height", 500),
-                margin = {top: 200, right: 20, bottom: 50, left: 75},
-                width = +line.attr("width") - margin.left - margin.right,
-                height = +line.attr("height") - margin.top - margin.bottom,
-                g = line.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")").attr("class", "axis");
-
-
-                var x = d3.scaleTime().rangeRound([0, width]);
-                var y = d3.scaleLinear().rangeRound([height, 0]);
-
-                var line = d3.line()
-                .x(function(d) { return x(d.month); })
-                .y(function(d) { return y(d.med_price); });
-
-                x.domain(d3.extent(region, function(d) { return d.month; }));
-                y.domain(d3.extent(region, function(d) { return d.med_price; }));
-
-                g.append("g").attr("class", "axisColor")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x)).selectAll("text")
-                .style("text-anchor", "end")
-                .attr("transform", "rotate(-65)")
-                .select(".domain")
-                .remove();
-
-                g.append("g").attr("class", "axisColor")
-                .call(d3.axisLeft(y))
-                .append("text")
-                .attr("fill", "#f2f2f2")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", "1em")
-                .attr("text-anchor", "end")
-                .text("Price (USD)");
-
-                g.append("path")
-                .datum(region)
-                .attr("fill", "none")
-                .attr("stroke", "#f2f2f2")
-                .attr("stroke-linejoin", "round")
-                .attr("stroke-linecap", "round")
-                .attr("stroke-width", 1.5)
-                .attr("d", line);
-              }
-            });
+          njmap.selectAll("path")
+          .data(topojson.feature(data, data.objects.tl_2010_34_zcta500).features)
+          .enter()
+          .append('path')
+          .attr('fill',function(d) { return color(lookup[d.properties.ZCTA5CE00] ); })
+          .attr("d", path)
+          .on("mouseover", function(d) {
+            var region = getRegionData(d.properties.ZCTA5CE00)[0];
+            if(region != null){
+              tooltipDiv.html('<div id="innerTip" class="list-group">' +
+              '<p class="list-group-item active">Zip Code: ' +  d.properties.ZCTA5CE00 + '</p>' +
+              '<a href="#njmap" class="list-group-item">Avg. Median Price: $' + lookup[d.properties.ZCTA5CE00] + '</a>' +
+              '<a href="#njmap" class="list-group-item">Metro: ' + region.Metro + '</a>' +
+              '<a href="#njmap" class="list-group-item">City: ' + region.City + '</a>' +
+              '</div>');
+            };
           })
-        });
-        </script>
-      </body>
+          .on("click", function(d) {
 
-      </html>
+            var regionData = getRegionData(d.properties.ZCTA5CE00)[0]
+            if(regionData!=null){
+              var parseTime = d3.timeParse("%Y-%m");
+              var region = []
+
+              Object.entries(regionData).forEach(function(d){
+                if(d[0].includes("2")){
+                  region.push({"month": parseTime(d[0]), "med_price": +d[1]})
+                }
+              });
+
+              console.log(region);
+
+              d3.select("#region").selectAll("svg").remove();
+
+              var line = d3.select("#region").append("svg")
+              .attr("width", 500).attr("height", 500),
+              margin = {top: 200, right: 20, bottom: 50, left: 75},
+              width = +line.attr("width") - margin.left - margin.right,
+              height = +line.attr("height") - margin.top - margin.bottom,
+              g = line.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")").attr("class", "axis");
+
+
+              var x = d3.scaleTime().rangeRound([0, width]);
+              var y = d3.scaleLinear().rangeRound([height, 0]);
+
+              var line = d3.line()
+              .x(function(d) { return x(d.month); })
+              .y(function(d) { return y(d.med_price); });
+
+              x.domain(d3.extent(region, function(d) { return d.month; }));
+              y.domain(d3.extent(region, function(d) { return d.med_price; }));
+
+              g.append("g").attr("class", "axisColor")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x)).selectAll("text")
+              .style("text-anchor", "end")
+              .attr("transform", "rotate(-65)")
+              .select(".domain")
+              .remove();
+
+              g.append("g").attr("class", "axisColor")
+              .call(d3.axisLeft(y))
+              .append("text")
+              .attr("fill", "#f2f2f2")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", "1em")
+              .attr("text-anchor", "end")
+              .text("Price (USD)");
+
+              g.append("path")
+              .datum(region)
+              .attr("fill", "none")
+              .attr("stroke", "#f2f2f2")
+              .attr("stroke-linejoin", "round")
+              .attr("stroke-linecap", "round")
+              .attr("stroke-width", 1.5)
+              .attr("d", line);
+            }
+          });
+        })
+      });
+      </script>
+  </body>
+</html>
