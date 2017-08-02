@@ -1,3 +1,5 @@
+// Adapted from https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3
+
 var yearly = d3.select("#yearly").append("svg").attr("width", 800).attr("height", 450),
     margin = {top: 20, right: 20, bottom: 60, left: 40},
     width = +yearly.attr("width") - margin.left - margin.right,
